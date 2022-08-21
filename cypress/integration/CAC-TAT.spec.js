@@ -44,20 +44,57 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('.error').should('be.visible')
     });
     it('preenche e limpa os campos nome, sobrenome, email e telefone', () => {
-        cy.get('#firstName').type('Felipe', {delay:0}).should('have.value', 'Felipe')
+        cy.get('#firstName').type('Felipe', {delay:0})
+            .should('have.value', 'Felipe')
             .clear().should('have.value', '');
-        cy.get('#lastName').type('Galdino', {delay:0}).should('have.value', 'Galdino')
+        cy.get('#lastName').type('Galdino', {delay:0})
+            .should('have.value', 'Galdino')
             .clear().should('have.value', '');
-        cy.get('#email').type('felipegaldino@email.com.br', {delay:0}).should('have.value', 'felipegaldino@email.com.br')
+        cy.get('#email').type('felipegaldino@email.com.br', {delay:0})
+            .should('have.value', 'felipegaldino@email.com.br')
             .clear().should('have.value', '');
-        cy.get('#phone').type('11999999999', {delay:0}).should('have.value', '11999999999')
+        cy.get('#phone').type('11999999999', {delay:0})
+            .should('have.value', '11999999999')
             .clear().should('have.value', '');
-        cy.get('#open-text-area').type('Preciso de suporte', {delay:0}).should('have.value', 'Preciso de suporte')
+        cy.get('#open-text-area').type('Preciso de suporte', {delay:0})
+            .should('have.value', 'Preciso de suporte')
             .clear().should('have.value', '');
     });
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
         cy.contains('.button','Enviar' ).click();
         cy.get('.error').should('be.visible');
+    });
+
+    it('seleciona um produto (YouTube) por seu texto', () => {
+        cy.get('#product').select('youtube')
+            .should('have.value' , 'youtube');
+    });
+
+    it('seleciona um produto (Mentoria) por seu texto', () => {
+        cy.get('#product').select('mentoria')
+            .should('have.value' , 'mentoria');
+    });
+
+    it('seleciona um produto (Blog) por seu texto', () => {
+        cy.get('#product')
+            .select(1)
+            .should('have.value' , 'blog');
+    });
+
+    it('marca o tipo de atendimento "Feedback"', () => {
+        cy.get('input[type="radio"][value="feedback"]')
+        .check()
+        .should('have.value' , 'feedback');
+    });
+
+    it.only('marca cada tipo de atendimento', () => {
+        cy.get('input[type="radio"]')
+        .should('have.length', 3)
+        .each(($radio)=>{
+            cy.wrap($radio).check()
+            cy.wrap($radio).should('be.checked')
+
+        })
     });
    
 });
